@@ -5,7 +5,9 @@ Cada subpasta representa um projeto prático individual, com seu próprio códig
 
 ## 🛠 Tecnologias utilizadas
 MicroPython
+
 Raspberry Pi Pico
+
 Placa BitDogLab
 🔗 Repositório oficial da BitDogLab: https://github.com/BitDogLab/BitDogLab
 

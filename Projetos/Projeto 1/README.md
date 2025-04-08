@@ -24,12 +24,15 @@ No jogo, o jogador controla uma cobrinha que se move por uma matriz de LEDs, bus
 
 ## Diagrama de Blocos
 
-![image]()
+![image](Images/Diagrama_Cobrinha.png)
+
+Figura 1: Diagrama de blocos do jogo da cobrinha
+
 
 ## Resultados Esperados
 
 - Proporcionar uma experiência interativa com **feedback visual e sonoro**;
-- Utilizar a maior parte dos periféricos da placa BitDogLab (exceto microfone);
+- Utilizar a maior parte dos periféricos da placa BitDogLab;
 - Enfrentar desafios técnicos, como a limitação da matriz de LEDs e a lógica de geração aleatória de alimentos;
 - Promover o aprendizado prático em sistemas embarcados e lógica de programação de jogos.
 

@@ -24,8 +24,6 @@ No jogo, o jogador controla uma cobrinha que se move por uma matriz de LEDs, bus
 
 ## Diagrama de Blocos
 
-![image](Images/Diagrama_Cobrinha.png)
-
 Figura 1: Diagrama de blocos do jogo da cobrinha
 
 

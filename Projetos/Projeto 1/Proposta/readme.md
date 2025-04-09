@@ -34,7 +34,7 @@ Figura 1: Diagrama de blocos do jogo da cobrinha
 - Enfrentar desafios técnicos, como a limitação da matriz de LEDs e a lógica de geração aleatória de alimentos;
 - Promover o aprendizado prático em sistemas embarcados e lógica de programação de jogos.
 
-## 👥 Equipe
+## Equipe
 
 - **Mateus Alves Silva** - RA: 239856  
 - **Nathália Kaori Gondo** - RA: 239903

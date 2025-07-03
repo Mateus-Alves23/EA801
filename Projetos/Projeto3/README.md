@@ -47,45 +47,148 @@ O código implementa um sistema embarcado de rastreamento solar com dois modos d
 Todos os dados operacionais — como modo ativo, ângulo atual e intensidade luminosa — são exibidos em tempo real no display OLED e enviados via Bluetooth por UART. O sistema utiliza sensores LDR conectados ao ADS1115 via I2C, joystick analógico via ADC, e atua sobre um servo motor SG90 controlado por PWM. O código foi escrito em MicroPython.
 
 ### 🔄 Máquina de Estados (MEF)
+O sistema opera com **três estados principais**:
 
+1. **Estado “Parado” (SEGURANÇA)**  
+   - Ativado quando o **MPU6050** detecta um movimento acima de 200°/s.
+   - O sistema é interrompido (servo congelado, OLED mostra "PARADO").
+   - Só volta ao estado anterior com a **pressão do botão físico**.
+
+2. **Estado “Automático” (modo PID)**  
+   - O sistema lê os LDRs e calcula o erro de luminosidade entre os lados.
+   - O PID ajusta o ângulo do painel para buscar o ponto de maior intensidade luminosa.
+
+3. **Estado “Manual” (modo Joystick)**  
+   - O ângulo do painel é ajustado diretamente pelo joystick analógico.
+   - Permite ao usuário explorar o sistema livremente.
+
+**Transições:**
+- `Parado → Operacional`: botão pressionado.
+- `Operacional → Parado`: movimento detectado pelo MPU6050.
+- `Automático ↔ Manual`: botão pressionado (com debounce).
+---
+
+### 🔁 Loop Principal – Núcleo da execução
+
+**Funções executadas a cada iteração:**
+1. Leitura do giroscópio (MPU6050);
+2. Verificação de segurança (modo "PARADO");
+3. Troca de modo com debounce (botão físico);
+4. Leitura dos LDRs (ADS1115);
+5. Execução do PID ou leitura do joystick;
+6. Atualização do servo motor;
+7. Exibição no OLED e transmissão UART.
+
+### ⚙️ Controle PID – Otimização da captação solar
 
 ```python
 erro_normalizado = (peso_esq * ldr_esq - peso_dir * ldr_dir) / soma
 P = Kp * erro_normalizado
 I = Ki * integral_erro
-D = Kd * derivada
+D = Kd * (erro_normalizado - erro_anterior)
 saida_pid = P + I + D
 angulo = max(0, min(180, 90 + saida_pid))
 ```
 
-### Modo Manual
-```python
-leitura = joy_x.read_u16()
-if leitura < 30000:
-    angulo += 2
-elif leitura > 40000:
-    angulo -= 2
-```
+Um **controlador PID** foi implementado para **ajustar o ângulo do painel solar** em tempo real com base na diferença de luminosidade entre os LDRs. O erro normalizado calcula o desbalanceamento entre os sensores e serve de entrada para o PID, que suavemente atualiza o ângulo do servo motor, evitando oscilações bruscas e mantendo o painel sempre apontado para a maior fonte de luz.
 
-### Segurança com MPU6050
+---
+
+### 🛑 Sensor Inercial MPU6050 – Segurança do sistema
+
 ```python
+class MPU6050:
+    def __init__(self, i2c, addr=0x68):
+        self.i2c = i2c
+        self.addr = addr
+        self.i2c.writeto_mem(self.addr, 0x6B, b'\x00')
+
+    def read_raw(self, reg):
+        data = self.i2c.readfrom_mem(self.addr, reg, 2)
+        value = int.from_bytes(data, 'big')
+        return value - 65536 if value >= 0x8000 else value
+
+    def get_gyro(self):
+        return [self.read_raw(r) / 131 for r in (0x43, 0x45, 0x47)]
+
+i2c_mpu = I2C(0, scl=Pin(17), sda=Pin(16))
+mpu = MPU6050(i2c_mpu)
+
 gyro = mpu.get_gyro()
 movimento_leve = any(abs(g) > 200 for g in gyro)
+
+    if movimento_leve and not parado:
+        parado = True
+        uart.write("[ALERTA] Movimento detectado\n")
+        mostrar_oled("PARADO")
+        utime.sleep(0.5)
 ```
 
-### Alternância de Modos
+O sensor **MPU6050** mede a rotação angular. Se qualquer eixo ultrapassar um limiar de segurança (200°/s), o sistema entra em **modo de pausa preventiva**. Esse mecanismo evita falhas ou acidentes em caso de quedas. A operação só é retomada com **intervenção do usuário** via botão físico.
+
+---
+
+### 🌞 Leitura dos LDRs via ADS1115 – Sensoriamento de luz
+
 ```python
-if ultimo_estado_botao == 1 and estado_botao == 0:
-    modo_auto = not modo_auto
+i2c_ads = I2C(1, scl=Pin(19), sda=Pin(18))
+ads = ADS1115(i2c_ads, gain=1)
+
+ldr_esq = ads.read(channel1=2)
+ldr_dir = ads.read(channel1=3)
 ```
 
-### Exibição no OLED e UART
+Os sensores LDR são conectados ao **ADS1115**, um conversor analógico-digital de alta precisão via **I2C**. As leituras dos canais A2 e A3 são usadas para calcular a distribuição de luz e orientar o painel. Essa abordagem garante maior estabilidade e precisão, comparada aos ADCs internos.
+
+---
+
+### 🎯 Controle do servo motor – PWM e função `set_angle`
+
 ```python
+servo = PWM(Pin(4))
+servo.freq(50)
+
+def set_angle(angle):
+    angle = max(0, min(180, angle))
+    duty = int((angle / 180) * 8000 + 1000)
+    servo.duty_u16(duty)
+```
+
+O servo motor **SG90** é controlado via **PWM**, e a função `set_angle()` traduz o valor de ângulo (0–180°) para o pulso correspondente no duty cycle. Essa função é usada tanto pelo PID quanto pelo joystick.
+
+---
+
+### 🖥️ Display OLED – Interface local ao usuário
+
+```python
+i2c_oled = SoftI2C(scl=Pin(15), sda=Pin(14))
+oled = SSD1306_I2C(128, 64, i2c_oled)
+
+oled.text("Modo:", 0, 0)
+oled.text(modo, 50, 0)
+oled.text(f"E: {int(ldr_esq)}", 0, 16)
+oled.text(f"D: {int(ldr_dir)}", 70, 16)
 oled.text(f"Ang: {int(angulo)}", 0, 32)
-uart.write(f"[AUTO] Esq: {ldr_esq} | Dir: {ldr_dir} | Ang: {int(angulo)}\n")
+oled.show()
 ```
 
-## Resultados Esperados
+O display **OLED SSD1306**, via barramento I2C, fornece ao usuário uma interface visual amigável e informativa, exibindo o **modo de operação atual**, as **leituras dos LDRs** e o **ângulo do painel** em tempo real.
+
+---
+
+### 📡 Comunicação via UART (Bluetooth HC-05)
+```python
+uart = UART(1, tx=Pin(8), rx=Pin(9), baudrate=9600)
+
+uart.write(f"[AUTO] Esq: {ldr_esq} | Dir: {ldr_dir} | Ang: {int(angulo)}\\n")
+uart.write(f"[MANUAL] Esq: {ldr_esq} | Dir: {ldr_dir} | Ang: {int(angulo)}\\n")
+uart.write("[ALERTA] Movimento detectado\\n")
+uart.write("[INFO] Sistema retomado\\n")
+```
+A UART é utilizada para transmitir mensagens informativas ao celular via Bluetooth HC-05.
+Ela indica o modo de operação atual, os valores dos sensores e o ângulo do painel. Também envia alertas de segurança e retomada do sistema.
+
+## Resultados
 
 - Sistema funcional com resposta estável;
 - Interface amigável e segura;

@@ -190,9 +190,12 @@ A UART é utilizada para transmitir mensagens informativas ao celular via Blueto
 Ela indica o modo de operação atual, os valores dos sensores e o ângulo do painel. Também envia alertas de segurança e retomada do sistema.
 
 ## Resultados
-[Vídeos e Fotos]([https://github.com/usuario/repositorio/tree/main/src](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos))
+[Vídeos e Fotos]([https://github.com/usuario/repositorio/tree/main/src](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos)
+
 [PCB](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/PCB)
+
 [Modelo 3D](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Modelo%203D)
+
 
 O sistema desenvolvido mostrou-se **altamente responsivo**, com tempos de reação rápidos aos estímulos luminosos. O controle PID apresentou um leve **overshoot**, o que é esperado em sistemas dinâmicos, mas manteve **estabilidade geral** e bom acompanhamento da luz incidente.
 

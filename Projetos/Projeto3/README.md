@@ -37,8 +37,7 @@ Inclui detecção de impactos via **MPU6050**, exibição de dados no **OLED** e
 - Estrutura mecânica impressa em 3D
 
 ## Diagrama de Blocos
-
-![Diagrama de Blocos]([Fotos%20e%20Vídeos/diagrama.png](https://github.com/Mateus-Alves23/EA801/blob/9a9ac47c29ed68f277e8d33c20ce83f3eb9520a5/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos/diagrama.png))
+![Diagrama de Blocos](https://github.com/Mateus-Alves23/EA801/blob/main/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos/diagrama.png?raw=true)
 
 ## Funcionamento do Código
 [Código](https://github.com/Mateus-Alves23/EA801/blob/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Adaptive_Solar_Panel_Tilt_System_V2.0.py)
@@ -190,11 +189,9 @@ A UART é utilizada para transmitir mensagens informativas ao celular via Blueto
 Ela indica o modo de operação atual, os valores dos sensores e o ângulo do painel. Também envia alertas de segurança e retomada do sistema.
 
 ## Resultados
-[Fotos e Vídeos](https://github.com/Mateus-Alves23/EA801/tree/4adf623515919757887739d8a4f3288d6da433ca/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos)
-
-[PCB](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/PCB)
-
-[Modelo 3D](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Modelo%203D)
+- [Fotos e Vídeos](https://github.com/Mateus-Alves23/EA801/tree/4adf623515919757887739d8a4f3288d6da433ca/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos)
+- [PCB](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/PCB)
+- [Modelo 3D](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Modelo%203D)
 
 
 O sistema desenvolvido mostrou-se **altamente responsivo**, com tempos de reação rápidos aos estímulos luminosos. O controle PID apresentou um leve **overshoot**, o que é esperado em sistemas dinâmicos, mas manteve **estabilidade geral** e bom acompanhamento da luz incidente.

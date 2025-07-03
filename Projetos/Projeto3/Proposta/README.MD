@@ -1,1 +1,1 @@
-![Painel montado](Fotos%20e%20V%C3%ADdeos/painel_montado.jpg)
+![Painel Solar Inclinação Adaptável](https://github.com/Mateus-Alves23/EA801/blob/main/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos/Painel%20Solar%20Inclina%C3%A7%C3%A3o%20Adapt%C3%A1vel%201.jpg?raw=true)

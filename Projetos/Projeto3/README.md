@@ -38,7 +38,7 @@ Inclui detecção de impactos via **MPU6050**, exibição de dados no **OLED** e
 
 ## Diagrama de Blocos
 
-*(Inserir imagem do diagrama funcional aqui)*
+![Diagrama de Blocos](Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos/diagrama.png)
 
 ## Funcionamento do Código
 [Código](https://github.com/Mateus-Alves23/EA801/blob/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Adaptive_Solar_Panel_Tilt_System_V2.0.py)

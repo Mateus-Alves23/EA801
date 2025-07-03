@@ -1,5 +1,5 @@
 
-# ☀️ Painéis Solares de Inclinação Adaptável V2.0 - BitDogLab
+# Painéis Solares de Inclinação Adaptável V2.0 - BitDogLab
 
 Projeto desenvolvido para a disciplina **EA801 - Laboratório de Projetos de Sistemas Embarcados** da **Faculdade de Engenharia Elétrica e de Computação (FEEC)** - **UNICAMP**.
 
@@ -40,13 +40,13 @@ Inclui detecção de impactos via **MPU6050**, exibição de dados no **OLED** e
 
 *(Inserir imagem do diagrama funcional aqui)*
 
-## 🧠 Funcionamento do Código
+## Funcionamento do Código
 
 O código implementa um sistema embarcado de rastreamento solar com dois modos de operação: automático com controle PID e manual com joystick. A seleção entre os modos é feita por um botão físico com debounce, enquanto a segurança do sistema é garantida por um sensor inercial (MPU6050) que pausa o sistema caso detecte movimento brusco (queda ou impacto).
 
 Todos os dados operacionais — como modo ativo, ângulo atual e intensidade luminosa — são exibidos em tempo real no display OLED e enviados via Bluetooth por UART. O sistema utiliza sensores LDR conectados ao ADS1115 via I2C, joystick analógico via ADC, e atua sobre um servo motor SG90 controlado por PWM. O código foi escrito em MicroPython.
 
-### 🔄 Máquina de Estados (MEF)
+### Máquina de Estados (MEF)
 O sistema opera com **três estados principais**:
 
 1. **Estado “Parado” (SEGURANÇA)**  
@@ -68,7 +68,7 @@ O sistema opera com **três estados principais**:
 - `Automático ↔ Manual`: botão pressionado (com debounce).
 ---
 
-### 🔁 Loop Principal – Núcleo da execução
+### Loop Principal – Núcleo da execução
 
 **Funções executadas a cada iteração:**
 1. Leitura do giroscópio (MPU6050);
@@ -79,7 +79,7 @@ O sistema opera com **três estados principais**:
 6. Atualização do servo motor;
 7. Exibição no OLED e transmissão UART.
 
-### ⚙️ Controle PID – Otimização da captação solar
+### Controle PID – Otimização da captação solar
 
 ```python
 erro_normalizado = (peso_esq * ldr_esq - peso_dir * ldr_dir) / soma
@@ -94,7 +94,7 @@ Um **controlador PID** foi implementado para **ajustar o ângulo do painel solar
 
 ---
 
-### 🛑 Sensor Inercial MPU6050 – Segurança do sistema
+### Sensor Inercial MPU6050 – Segurança do sistema
 
 ```python
 class MPU6050:
@@ -128,7 +128,7 @@ O sensor **MPU6050** mede a rotação angular. Se qualquer eixo ultrapassar um l
 
 ---
 
-### 🌞 Leitura dos LDRs via ADS1115 – Sensoriamento de luz
+### Leitura dos LDRs via ADS1115 – Sensoriamento de luz
 
 ```python
 i2c_ads = I2C(1, scl=Pin(19), sda=Pin(18))
@@ -142,7 +142,7 @@ Os sensores LDR são conectados ao **ADS1115**, um conversor analógico-digital 
 
 ---
 
-### 🎯 Controle do servo motor – PWM e função `set_angle`
+### Controle do servo motor – PWM e função `set_angle`
 
 ```python
 servo = PWM(Pin(4))
@@ -158,7 +158,7 @@ O servo motor **SG90** é controlado via **PWM**, e a função `set_angle()` tra
 
 ---
 
-### 🖥️ Display OLED – Interface local ao usuário
+### Display OLED – Interface local ao usuário
 
 ```python
 i2c_oled = SoftI2C(scl=Pin(15), sda=Pin(14))
@@ -176,7 +176,7 @@ O display **OLED SSD1306**, via barramento I2C, fornece ao usuário uma interfac
 
 ---
 
-### 📡 Comunicação via UART (Bluetooth HC-05)
+### Comunicação via UART (Bluetooth HC-05)
 ```python
 uart = UART(1, tx=Pin(8), rx=Pin(9), baudrate=9600)
 
@@ -188,7 +188,7 @@ uart.write("[INFO] Sistema retomado\\n")
 A UART é utilizada para transmitir mensagens informativas ao celular via Bluetooth HC-05.
 Ela indica o modo de operação atual, os valores dos sensores e o ângulo do painel. Também envia alertas de segurança e retomada do sistema.
 
-## ✅ Resultados
+## Resultados
 
 O sistema desenvolvido mostrou-se **altamente responsivo**, com tempos de reação rápidos aos estímulos luminosos. O controle PID apresentou um leve **overshoot**, o que é esperado em sistemas dinâmicos, mas manteve **estabilidade geral** e bom acompanhamento da luz incidente.
 
@@ -196,7 +196,7 @@ Todos os subsistemas — controle PID, leitura dos LDRs via ADS1115, atuação d
 
 O sistema de segurança, baseado no MPU6050, **agiu de forma satisfatória e rápida** diante de movimentações bruscas, pausando o sistema conforme esperado e garantindo proteção ao hardware.
 
-### 🧩 Dificuldades encontradas
+### Dificuldades encontradas
 
 - A principal dificuldade foi a **regulagem dos parâmetros do PID**, que exigiu múltiplas iterações por tentativa e erro para encontrar um ajuste que proporcionasse **resposta veloz** sem **overshoot exagerado**.
 - A **soldagem da PCB** apresentou desafios devido a limitações na qualidade da impressão do layout, o que comprometeu temporariamente algumas conexões, **especialmente nas linhas de comunicação I²C**.
@@ -209,4 +209,4 @@ O sistema de segurança, baseado no MPU6050, **agiu de forma satisfatória e rá
 
 ---
 
-Campinas, SP - 2024
+Campinas, SP - 2025

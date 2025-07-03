@@ -188,12 +188,19 @@ uart.write("[INFO] Sistema retomado\\n")
 A UART é utilizada para transmitir mensagens informativas ao celular via Bluetooth HC-05.
 Ela indica o modo de operação atual, os valores dos sensores e o ângulo do painel. Também envia alertas de segurança e retomada do sistema.
 
-## Resultados
+## ✅ Resultados
 
-- Sistema funcional com resposta estável;
-- Interface amigável e segura;
-- Montagem robusta em PCB e estrutura 3D;
-- Comunicação eficiente com o usuário.
+O sistema desenvolvido mostrou-se **altamente responsivo**, com tempos de reação rápidos aos estímulos luminosos. O controle PID apresentou um leve **overshoot**, o que é esperado em sistemas dinâmicos, mas manteve **estabilidade geral** e bom acompanhamento da luz incidente.
+
+Todos os subsistemas — controle PID, leitura dos LDRs via ADS1115, atuação do servo motor, exibição no OLED, comunicação via Bluetooth e segurança com o MPU6050 — **funcionaram corretamente em paralelo**, demonstrando **boa integração e robustez do projeto**.
+
+O sistema de segurança, baseado no MPU6050, **agiu de forma satisfatória e rápida** diante de movimentações bruscas, pausando o sistema conforme esperado e garantindo proteção ao hardware.
+
+### 🧩 Dificuldades encontradas
+
+- A principal dificuldade foi a **regulagem dos parâmetros do PID**, que exigiu múltiplas iterações por tentativa e erro para encontrar um ajuste que proporcionasse **resposta veloz** sem **overshoot exagerado**.
+- A **soldagem da PCB** apresentou desafios devido a limitações na qualidade da impressão do layout, o que comprometeu temporariamente algumas conexões, **especialmente nas linhas de comunicação I²C**.
+- Apesar dessas dificuldades, com **revisões e retrabalho cuidadoso**, o sistema foi restaurado à sua plena funcionalidade.
 
 ## Equipe
 

@@ -41,6 +41,7 @@ Inclui detecção de impactos via **MPU6050**, exibição de dados no **OLED** e
 *(Inserir imagem do diagrama funcional aqui)*
 
 ## Funcionamento do Código
+[Código](https://github.com/Mateus-Alves23/EA801/blob/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Adaptive_Solar_Panel_Tilt_System_V2.0.py)
 
 O código implementa um sistema embarcado de rastreamento solar com dois modos de operação: automático com controle PID e manual com joystick. A seleção entre os modos é feita por um botão físico com debounce, enquanto a segurança do sistema é garantida por um sensor inercial (MPU6050) que pausa o sistema caso detecte movimento brusco (queda ou impacto).
 
@@ -189,6 +190,9 @@ A UART é utilizada para transmitir mensagens informativas ao celular via Blueto
 Ela indica o modo de operação atual, os valores dos sensores e o ângulo do painel. Também envia alertas de segurança e retomada do sistema.
 
 ## Resultados
+[Vídeos e Fotos]([https://github.com/usuario/repositorio/tree/main/src](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Fotos%20e%20V%C3%ADdeos))
+[PCB](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/PCB)
+[Modelo 3D](https://github.com/Mateus-Alves23/EA801/tree/ebcd0ff22d0145f5401ba5697780aa0fe53728b3/Projetos/Projeto3/Modelo%203D)
 
 O sistema desenvolvido mostrou-se **altamente responsivo**, com tempos de reação rápidos aos estímulos luminosos. O controle PID apresentou um leve **overshoot**, o que é esperado em sistemas dinâmicos, mas manteve **estabilidade geral** e bom acompanhamento da luz incidente.
 
